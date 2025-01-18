@@ -1,0 +1,51 @@
+from datetime import datetime
+import sys
+from app.core.mongodb import MongoDB
+from app.utils.token_management import num_tokens_from_string
+
+
+mongo = MongoDB.get_client()
+db = mongo["lawgpt"]
+usage_collection = db["token_usage"]
+
+
+
+def update_token_usage(user_api_key, token_usage):
+    if "pytest" in sys.modules:
+        return
+    usage_data = {
+        "api_key": user_api_key,
+        "prompt_tokens": token_usage["prompt_tokens"],
+        "generated_tokens": token_usage["generated_tokens"],
+        "timestamp": datetime.now(),
+    }
+    usage_collection.insert_one(usage_data)
+
+def gen_token_usage(func):
+    def wrapper(self, model, messages, stream, **kwargs):
+        for message in messages:
+            self.token_usage["prompt_tokens"] += num_tokens_from_string(message["content"])
+        result = func(self, model, messages, stream, **kwargs)
+        self.token_usage["generated_tokens"] += num_tokens_from_string(result)
+        update_token_usage(self.user_api_key, self.token_usage)
+        return result
+
+    return wrapper
+
+
+
+# def stream_token_usage(func):
+#     def wrapper(self, model, messages, stream, **kwargs):
+#         for message in messages:
+#             self.token_usage["prompt_tokens"] += num_tokens_from_string(message["content"])
+#         batch = []
+#         result = func(self, model, messages, stream, **kwargs)
+#         for r in result:
+#             batch.append(r)
+#             yield r
+#         for line in batch:
+#             self.token_usage["generated_tokens"] += num_tokens_from_string(line)
+#         update_token_usage(self.user_api_key, self.token_usage)
+
+#     return wrapper
+

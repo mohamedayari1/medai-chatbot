@@ -31,21 +31,24 @@ services:
   #     - redis
   #     - mongo
 
-  # worker:
-  #   build: ./application
-  #   command: celery -A application.app.celery worker -l INFO -B
-  #   environment:
-  #     - API_KEY=$API_KEY
-  #     - EMBEDDINGS_KEY=$API_KEY
-  #     - LLM_NAME=$LLM_NAME
-  #     - CELERY_BROKER_URL=redis://redis:6379/0
-  #     - CELERY_RESULT_BACKEND=redis://redis:6379/1
-  #     - MONGO_URI=mongodb://mongo:27017/docsgpt
-  #     - API_URL=http://backend:7091
-  #     - CACHE_REDIS_URL=redis://redis:6379/2
-  #   depends_on:
-  #     - redis
-  #     - mongo
+
+  worker:
+    build: ./application
+    command: poetry run celery -A processor.worker.celery_config worker --pool=solo -n worker_primary --loglevel=info
+    environment:
+      - API_KEY=$API_KEY
+      - EMBEDDINGS_KEY=$API_KEY
+      - LLM_NAME=$LLM_NAME
+      - CELERY_BROKER_URL=redis://default:9TX3gyyakwM6sHd5LEMAl0GYswvWmW1s@redis-16662.c339.eu-west-3-1.ec2.redns.redis-cloud.com:16662/0
+      - CELERY_RESULT_BACKEND=redis://default:9TX3gyyakwM6sHd5LEMAl0GYswvWmW1s@redis-16662.c339.eu-west-3-1.ec2.redns.redis-cloud.com:16662/0
+      - MONGO_URI=mongodb://mongo:27017/docsgpt
+      - API_URL=http://backend:7091
+      - CACHE_REDIS_URL=redis://redis:6379/2
+    depends_on:
+      - redis
+      - mongo
+
+  
 
   redis:
     image: redis:6-alpine

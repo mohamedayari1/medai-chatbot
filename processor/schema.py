@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field
 from typing import List, Literal, Optional
 
+from core.config import settings
+
 
 class ImageData(BaseModel):
     type: Optional[Literal["table", "picture"]] = Field(None, description="The type of the image")

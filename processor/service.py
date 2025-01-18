@@ -11,7 +11,7 @@ from docling.document_converter import PdfFormatOption, DocumentConverter
 from docling_core.types.doc import ImageRefMode, TableItem, PictureItem
 from fastapi import HTTPException
 
-from schema import BatchConversionJobResult, ConversationJobResult, ConversionResult, ImageData
+from processor.schema import BatchConversionJobResult, ConversationJobResult, ConversionResult, ImageData
 
 logging.basicConfig(level=logging.INFO)
 IMAGE_RESOLUTION_SCALE = 4
