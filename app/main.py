@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # from app.core.config import settings
 from app.routes import answer
+from app.routes import user
 
 app = FastAPI(
     title="LawGPT API",
@@ -23,6 +24,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(answer.router, tags=["answer"])
+app.include_router(user.router, tags=["user"])
 
 @app.get("/")
 async def root():

@@ -8,7 +8,8 @@ current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__
 
 
 class Settings(BaseSettings):
-    EMBEDDING_MODEL_ID: str = "sentence-transformers/all-MiniLM-L6-v2"
+    # EMBEDDING_MODEL_ID: str = "sentence-transformers/all-MiniLM-L6-v2"
+    EMBEDDING_MODEL_ID: str = "openai_text-embedding-ada-002"
     EMBEDDING_MODEL_MAX_INPUT_LENGTH: int = 256
     EMBEDDING_SIZE: int = 384
     EMBEDDING_MODEL_DEVICE: str = "cpu" 
@@ -28,13 +29,13 @@ class Settings(BaseSettings):
 
     API_URL: str = "http://localhost:8000"  # backend url for celery worker
 
-    # API_KEY: Optional[str] = None  # LLM api key
-    # EMBEDDINGS_KEY: Optional[str] = None  # api key for embeddings (if using openai, just copy API_KEY)
-    # OPENAI_API_BASE: Optional[str] = None  # azure openai api base url
-    # OPENAI_API_VERSION: Optional[str] = None  # azure openai api version
-    # AZURE_DEPLOYMENT_NAME: Optional[str] = None  # azure deployment name for answering
-    # AZURE_EMBEDDINGS_DEPLOYMENT_NAME: Optional[str] = None  # azure deployment name for embeddings
-    # OPENAI_BASE_URL: Optional[str] = None # openai base url for open ai compatable models
+    API_KEY: Optional[str] = None  # LLM api key
+    EMBEDDINGS_KEY: Optional[str] = None  # api key for embeddings (if using openai, just copy API_KEY)
+    OPENAI_API_BASE: Optional[str] = None  # azure openai api base url
+    OPENAI_API_VERSION: Optional[str] = None  # azure openai api version
+    AZURE_DEPLOYMENT_NAME: Optional[str] = None  # azure deployment name for answering
+    AZURE_EMBEDDINGS_DEPLOYMENT_NAME: Optional[str] = None  # azure deployment name for embeddings
+    OPENAI_BASE_URL: Optional[str] = None # openai base url for open ai compatable models
 
     # Azure OpenAI config
     AZURE_OPENAI_API_KEY: str = "mcOZ1fI1JChD4P0fyyp84wEb6dJ0iIBWaSfOALNXXWwSfjj5mM7gJQQJ99AKACHYHv6XJ3w3AAAAACOGH5AI"
